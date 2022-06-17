@@ -14,13 +14,13 @@ public static class SerilogExtensions
     {
         Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration)
-            .Enrich.WithProperty("ApplicationName", $"API Exemplo - {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}")
+            .Enrich.WithProperty("ApplicationName", $"API Example - {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}")
             .Enrich.FromLogContext()
             .Enrich.WithMachineName()
             .Enrich.WithEnvironmentUserName()
             .Enrich.WithDemystifiedStackTraces()
             .Filter.ByExcluding(Matching.FromSource("Microsoft.AspNetCore.StaticFiles"))
-            .Filter.ByExcluding(z => z.MessageTemplate.Text.Contains("erro de negócio"))
+            .Filter.ByExcluding(z => z.MessageTemplate.Text.Contains("business error"))
             .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["ElasticsearchSettings:uri"]))
             {
                 AutoRegisterTemplate = true,

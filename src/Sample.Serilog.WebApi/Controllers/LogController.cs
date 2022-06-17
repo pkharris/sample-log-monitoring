@@ -1,26 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Sample.Serilog.WebApi.Controllers;
 
 [Route("api/[controller]")]
 public class LogController : Controller
 {
-    public LogController()
-    {
-    }
 
     [HttpPost("sample")]
     public IActionResult PostSampleData()
     {
+        Log.Information("Sample information.");
         return Ok(new { Result = "Data successfully registered with Elasticsearch" });
     }
 
     [HttpGet("exception")]
     public IActionResult GetByName()
     {
-        //Sample middlerare exception log
-        throw new Exception("Não foi possível fazer o get.");
+        //Sample middlware exception log
+        Log.Error("This is an error"); // (new Exception("Sample Exception"), "This is an error");
+        return BadRequest();
+        //throw new Exception("This is an error.");
     }
 
 }
