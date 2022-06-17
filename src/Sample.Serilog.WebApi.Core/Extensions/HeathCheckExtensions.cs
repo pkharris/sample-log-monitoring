@@ -12,8 +12,8 @@ public static class HeathCheckExtensions
     public static void AddHeathCheckApi(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHealthChecks()
-            .AddCheck("Situação", () => HealthCheckResult.Unhealthy())
-            .AddCheck<MyHealthCheck>("Dependências")
+            .AddCheck("Situation", () => HealthCheckResult.Unhealthy())
+            .AddCheck<MyHealthCheck>("Dependencies")
             .AddSqlServer(
                 configuration.GetConnectionString("DefaultConnection"), "SELECT 1;", "Sql Server", HealthStatus.Degraded, timeout: TimeSpan.FromSeconds(30), tags: new[] { "db", "sql", "sqlServer", })
             .AddRedis(
@@ -24,8 +24,8 @@ public static class HeathCheckExtensions
         services.AddHealthChecksUI(config =>
         {
             config.SetEvaluationTimeInSeconds(5);
-            config.AddHealthCheckEndpoint("Host Externo", ObterHostNameApiHealthCheck());
-            config.AddHealthCheckEndpoint("Aplicação", $"http://localhost:5001/hc");
+            config.AddHealthCheckEndpoint("Host External", ObtainHostNameApiHealthCheck());
+            config.AddHealthCheckEndpoint("Application", $"http://sample-serilog:5001/hc");
 
             config.AddWebhookNotification("Slack Notification WebHook", "Your_Slack_WebHook_Uri_Goes_Here",
                 "{\"text\": \"[[LIVENESS]] is failing with the error message : [[FAILURE]]\"}",
@@ -42,7 +42,7 @@ public static class HeathCheckExtensions
         });
     }
 
-    public static string ObterHostNameApiHealthCheck()
+    public static string ObtainHostNameApiHealthCheck()
     {
         var tt = Environment.GetEnvironmentVariable("HostNameHealthCheck") == null ? "/api/hc" : $"{Environment.GetEnvironmentVariable("HostNameHealthCheck")}/api/hc";
         return tt;

@@ -16,7 +16,7 @@ public class MyHealthCheck : IHealthCheck
 
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,CancellationToken cancellationToken = default(CancellationToken))
     {
-        var result = dependency.IsHealthy() ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy("Erro ao carregar as dependências.");
+        var result = dependency.IsHealthy() ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy("Error loading dependencies.");
         return Task.FromResult(result);
     }
 }

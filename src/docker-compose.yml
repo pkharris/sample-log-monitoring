@@ -15,6 +15,10 @@ services:
     - 5341:5341
    environment:
     - ACCEPT_EULA=Y
+   volumes:
+    - type: bind
+      source: seq-data
+      target: /data
 
   elasticsearch:
    container_name: elasticsearch
@@ -53,3 +57,4 @@ networks:
 
 volumes:
   elasticsearch-data:
+  seq-data:

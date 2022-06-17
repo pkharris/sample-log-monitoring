@@ -30,7 +30,7 @@ public class ErrorHandlingMiddleware
 
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        Log.Error(exception, "Erro não tratado");
+        Log.Error(exception, "Unhandled error");
 
         var code = HttpStatusCode.InternalServerError;
 
